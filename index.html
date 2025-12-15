@@ -2,6 +2,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewpoint"
+    content="width=device-width, initial-scale=1.0">
     <title>Đoán tuổi của bạn</title>
     <style>
         body {
@@ -9,6 +11,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            text-align: center;
+            margin: 0;
+            flex-direction: column;
             height: 100vh;
             background: #f2f2f2;
         }
@@ -23,19 +28,19 @@
         }
 
         h1 {
-            font-size: 32px;
+            font-size: clamp(28px, 6vw, 48px);
             margin-bottom: 20px;
         }
 
         input {
-        padding: 10px;
-        width: 100%;
+        padding: 12px;
+        width: 80%;
         font-size: 16px;
-        margin-bottom: 10px;
+        max-width: 300px;
     }
 
         button {
-        padding: 10px;
+        padding: 12px 20px;
         width: 100%;
         font-size: 16px;
         cursor: pointer;
@@ -67,12 +72,12 @@
 <div class="container">
     <h1>Đoán tuổi của bạn</h1>
 
-    <input tyoe="number" id="ageInput" placeholder="Nhập tuổi của bạn">
-    <div class="error" id="error">Vui lòng nhập tuổi của bạn</div>
+    <input id="age" type="number" placeholder="Nhập tuổi của bạn" min="1" max="100">
+    <p id="error" style="color: red;">Vui lòng nhập tuổi của bạn</p>
 
     <button onclick="submitAge()">Xác nhận</button>
 
-    <div class="loading" id="loading">
+    <div id="loading" style="display: none;">
         <p>Đang phân tích...</p>
         <progress id="bar" value="0" max="100"></progress>
     </div>
@@ -82,11 +87,19 @@
 
 <script>
 function submitAge() {
-    const age = document.getElementById("ageInput").value;
+    const ageInput = document.getElementById("age");
     const error = document.getElementById("error");
+    const result = document.getElementById("result");
+    const loading = document.getElementById("loading");
+
+    const age = ageInput.value.trim();
+
+    error.innerHTML = "";
+    result.innerHTML = "";
+    loading.style.display = "none";
 
     if (age === "") {
-        error.style.display = "block";
+        error.innerHTML = "Vui lòng nhập tuổi của bạn";
         return;
     }
 

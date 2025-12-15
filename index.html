@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Đoán tuổi của bạn</title>
+    <style>
+        body {
+            font-family: Ariel, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f2f2f2;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            width: 320px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        input {
+        padding: 10px;
+        width: 100%;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+        button {
+        padding: 10px;
+        width: 100%;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        .errer {
+        color: red;
+        font-size: 14px;
+        display: none;
+    }
+
+        .loading {
+        display: none;
+    }
+
+        .result {
+        display: none;
+        font-size: 20px;
+        margin-top: 20px;
+    }
+
+        progress {
+        width: 100%;
+    }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Đoán tuổi của bạn</h1>
+
+    <input tyoe="number" id="ageInput" placeholder="Nhập tuổi của bạn">
+    <div class="error" id="error">Vui lòng nhập tuổi của bạn</div>
+
+    <button onclick="submitAge()">Xác nhận</button>
+
+    <div class="loading" id="loading">
+        <p>Đang phân tích...</p>
+        <progress id="bar" value="0" max="100"></progress>
+    </div>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+function submitAge() {
+    const age = document.getElementById("ageInput").value;
+    const error = document.getElementById("error");
+
+    if (age === "") {
+        error.style.display = "block";
+        return;
+    }
+
+    error.style.display = "none";
+    startLoading(age);
+}
+
+function startLoading(age) {
+    const loading = document.getElementById("loading");
+    const bar = document.getElementById("bar");
+    const result = document.getElementById("result");
+
+    loading.style.display = "block";
+    bar.value = 0;
+
+    let value = 0;
+
+    function run() {
+        value += 5;
+        bar.value = value;
+
+        if (value < 100) {
+            setTimeout(run, 60);
+        } else {
+            loading.style.display = "none";
+            result.style.display = "block";
+            result.innerHTML = `<b>Bây giờ bạn đã ${age} tuổi rồi</b>`;
+        }
+    }
+
+    run();
+}
+</script>
+
+</body>
+</html>
